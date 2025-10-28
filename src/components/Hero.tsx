@@ -1,7 +1,6 @@
 import { ArrowRight, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
-import anaPaula from "@/assets/ana-paula.png";
 
 const Hero = () => {
   return (
@@ -14,14 +13,14 @@ const Hero = () => {
         <Heart className="w-24 h-24 text-accent" fill="currentColor" />
       </div>
       
-      <div className="container mx-auto max-w-7xl">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto max-w-6xl">
+        <div className="flex justify-center items-center">
           {/* Content */}
-          <div className="space-y-8 animate-fade-in-up">
+          <div className="space-y-8 animate-fade-in-up text-center max-w-4xl">
             <img 
               src={logo} 
               alt="Você + Magra" 
-              className="w-48 h-auto"
+              className="w-48 h-auto mx-auto"
             />
             
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
@@ -51,19 +50,6 @@ const Hero = () => {
               Quero Começar Agora
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
-          </div>
-          
-          {/* Image */}
-          <div className="relative animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="relative z-10">
-              <img 
-                src={anaPaula} 
-                alt="Ana Paula - Nutricionista" 
-                className="rounded-3xl shadow-2xl w-full h-auto"
-              />
-            </div>
-            {/* Decorative background */}
-            <div className="absolute -bottom-6 -right-6 w-full h-full bg-primary/10 rounded-3xl -z-10"></div>
           </div>
         </div>
       </div>

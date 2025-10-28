@@ -43,9 +43,28 @@ const Footer = () => {
           {/* Contact */}
           <div>
             <h3 className="font-semibold mb-4">Contato</h3>
-            <p className="text-primary-foreground/80 text-sm leading-relaxed">
-              Tire suas dúvidas e comece sua transformação hoje mesmo.
-            </p>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a 
+                  href="https://www.instagram.com/nutricionista_anapaulamelo" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors flex items-center gap-2"
+                >
+                  <span>Instagram: @nutricionista_anapaulamelo</span>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://wa.me/5535991331880" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors flex items-center gap-2"
+                >
+                  <span>WhatsApp: (35) 9133-1880</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         
