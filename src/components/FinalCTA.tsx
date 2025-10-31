@@ -25,7 +25,7 @@ const FinalCTA = () => {
         <div className="pt-6 md:pt-8 space-y-5 md:space-y-6">
           <Button 
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground text-base md:text-xl px-8 md:px-12 py-6 md:py-7 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse-soft group w-full sm:w-auto"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground text-base md:text-xl px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group w-full sm:w-auto"
           >
             Quero começar meu processo agora
             <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />

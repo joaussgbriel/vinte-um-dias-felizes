@@ -45,7 +45,7 @@ const Hero = () => {
             
             <Button 
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground text-base md:text-lg px-6 md:px-8 py-5 md:py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse-soft group w-full sm:w-auto"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground text-base md:text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group w-full sm:w-auto"
             >
               Quero Começar Agora
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
