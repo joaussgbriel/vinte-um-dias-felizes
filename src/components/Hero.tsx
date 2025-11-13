@@ -23,6 +23,16 @@ const Hero = () => {
               className="w-36 md:w-48 h-auto mx-auto"
             />
             
+            <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight px-2">
+              Você não precisa mais escolher entre{" "}
+              <span className="text-primary">emagrecer</span> e ser{" "}
+              <span className="text-accent">feliz.</span>
+            </h1>
+            
+            <p className="text-lg md:text-xl lg:text-2xl text-foreground/80 leading-relaxed px-2">
+              Em 21 dias, descubra como é possível perder peso sem culpa, sem restrição e com prazer em comer de novo.
+            </p>
+            
             {/* YouTube Video Embed */}
             <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl mx-auto">
               <iframe
@@ -34,6 +44,14 @@ const Hero = () => {
                 style={{ border: 'none' }}
               />
             </div>
+            
+            <Button 
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground text-base md:text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group w-full sm:w-auto"
+            >
+              Quero Começar Agora
+              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
           </div>
         </div>
       </div>
