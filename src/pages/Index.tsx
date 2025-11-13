@@ -5,10 +5,12 @@ import Testimonials from "@/components/Testimonials";
 import AboutNutritionist from "@/components/AboutNutritionist";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
 
 const Index = () => {
   return (
     <main className="min-h-screen">
+      <AnnouncementBanner />
       <Hero />
       <ProblemSection />
       <ProgramFeatures />
