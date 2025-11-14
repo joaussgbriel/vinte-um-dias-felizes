@@ -1,20 +1,100 @@
-import { ArrowRight, Heart, Play, Pause } from "lucide-react";
+import { ArrowRight, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import logo from "@/assets/logo.png";
 
+// Tipos para a API do YouTube
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
 const Hero = () => {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [showThumbnail, setShowThumbnail] = useState(true);
+  const playerRef = useRef<any>(null);
+  const iframeWrapRef = useRef<HTMLDivElement>(null);
+  const videoId = 'R170ns5l4Uk';
+
+  // Carrega a API do YouTube
+  useEffect(() => {
+    const loadYouTubeAPI = () => {
+      if (window.YT && window.YT.Player) return;
+      
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    };
+
+    loadYouTubeAPI();
+  }, []);
+
+  // Cria o player quando o usuário clicar
+  const createPlayerAndPlay = () => {
+    if (loaded || !iframeWrapRef.current) return;
+    
+    const initPlayer = () => {
+      setLoaded(true);
+      
+      playerRef.current = new window.YT.Player(iframeWrapRef.current, {
+        width: '100%',
+        height: '100%',
+        videoId: videoId,
+        playerVars: {
+          controls: 0,
+          modestbranding: 1,
+          rel: 0,
+          fs: 0,
+          iv_load_policy: 3,
+          playsinline: 1,
+          disablekb: 1,
+          cc_load_policy: 0,
+          showinfo: 0
+        },
+        events: {
+          onReady: (event: any) => {
+            setShowThumbnail(false);
+            event.target.playVideo();
+            setIsPlaying(true);
+          },
+          onStateChange: (event: any) => {
+            const state = event.data;
+            if (state === window.YT.PlayerState.PLAYING) {
+              setIsPlaying(true);
+            } else if (state === window.YT.PlayerState.PAUSED || state === window.YT.PlayerState.ENDED) {
+              setIsPlaying(false);
+            }
+          }
+        }
+      });
+    };
+
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = initPlayer;
+    }
+  };
 
   const togglePlayPause = () => {
-    if (iframeRef.current) {
-      const command = isPlaying ? 'pauseVideo' : 'playVideo';
-      iframeRef.current.contentWindow?.postMessage(
-        JSON.stringify({ event: 'command', func: command, args: [] }),
-        '*'
-      );
-      setIsPlaying(!isPlaying);
+    if (!loaded) {
+      createPlayerAndPlay();
+      return;
+    }
+    
+    if (!playerRef.current) return;
+    
+    const state = playerRef.current.getPlayerState();
+    if (state === window.YT.PlayerState.PLAYING) {
+      playerRef.current.pauseVideo();
+      setIsPlaying(false);
+    } else {
+      playerRef.current.playVideo();
+      setIsPlaying(true);
     }
   };
 
@@ -48,37 +128,47 @@ const Hero = () => {
               Em 21 dias, descubra como é possível perder peso sem culpa, sem restrição e com prazer em comer de novo.
             </p>
             
-            {/* YouTube Video Embed */}
-            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl mx-auto group">
-              <iframe
-                ref={iframeRef}
-                className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                src="https://www.youtube.com/embed/R170ns5l4Uk?autoplay=1&mute=0&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&loop=1&playlist=R170ns5l4Uk&disablekb=1&fs=0&cc_load_policy=0&enablejsapi=1"
-                title="Você + Magra"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{ border: 'none' }}
+            {/* VSL Player - YouTube sem controles nativos */}
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl mx-auto group bg-black">
+              {/* Thumbnail - mostrado até o usuário clicar */}
+              {showThumbnail && (
+                <img
+                  src={`https://i.ytimg.com/vi/${videoId}/hq720.jpg`}
+                  alt="Thumbnail do vídeo"
+                  className="absolute inset-0 w-full h-full object-cover z-10 cursor-pointer"
+                  onClick={togglePlayPause}
+                />
+              )}
+              
+              {/* Container onde o iframe do YouTube será injetado */}
+              <div 
+                ref={iframeWrapRef}
+                className="absolute inset-0 z-20"
+                style={{ pointerEvents: loaded ? 'none' : 'none' }}
               />
-              
-              {/* Overlay central - bloqueia cliques no vídeo */}
-              <div className="absolute inset-0 bg-transparent pointer-events-auto z-5" />
-              
-              {/* Overlays das bordas - cobrem controles residuais do YouTube */}
-              <div className="absolute bottom-0 left-0 right-0 h-24 bg-transparent pointer-events-auto z-10" />
-              <div className="absolute top-0 left-0 right-0 h-16 bg-transparent pointer-events-auto z-10" />
-              <div className="absolute top-0 bottom-0 left-0 w-16 bg-transparent pointer-events-auto z-10" />
-              <div className="absolute top-0 bottom-0 right-0 w-16 bg-transparent pointer-events-auto z-10" />
               
               {/* Botão Play/Pause personalizado */}
               <button
                 onClick={togglePlayPause}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-background/90 hover:bg-background text-foreground rounded-full p-4 md:p-6 shadow-lg transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 bg-background/60 backdrop-blur-sm hover:bg-background/80 text-foreground rounded-full p-6 md:p-10 shadow-lg transition-all duration-300 hover:scale-110"
                 aria-label={isPlaying ? "Pausar vídeo" : "Reproduzir vídeo"}
+                style={{ 
+                  width: '84px', 
+                  height: '84px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
                 {isPlaying ? (
-                  <Pause className="w-8 h-8 md:w-12 md:h-12" fill="currentColor" />
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="6" y="5" width="4" height="14" fill="white" />
+                    <rect x="14" y="5" width="4" height="14" fill="white" />
+                  </svg>
                 ) : (
-                  <Play className="w-8 h-8 md:w-12 md:h-12" fill="currentColor" />
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M8 5v14l11-7L8 5z" fill="white" />
+                  </svg>
                 )}
               </button>
             </div>
