@@ -1,8 +1,23 @@
-import { ArrowRight, Heart } from "lucide-react";
+import { ArrowRight, Heart, Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState, useRef } from "react";
 import logo from "@/assets/logo.png";
 
 const Hero = () => {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const togglePlayPause = () => {
+    if (iframeRef.current) {
+      const command = isPlaying ? 'pauseVideo' : 'playVideo';
+      iframeRef.current.contentWindow?.postMessage(
+        JSON.stringify({ event: 'command', func: command, args: [] }),
+        '*'
+      );
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center py-12 md:py-20 px-4 md:px-6 overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
       {/* Decorative elements */}
@@ -34,10 +49,11 @@ const Hero = () => {
             </p>
             
             {/* YouTube Video Embed */}
-            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl mx-auto">
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl mx-auto group">
               <iframe
+                ref={iframeRef}
                 className="absolute top-0 left-0 w-full h-full"
-                src="https://www.youtube.com/embed/R170ns5l4Uk?autoplay=1&mute=0&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&loop=1&playlist=R170ns5l4Uk&disablekb=1&fs=0&cc_load_policy=0"
+                src="https://www.youtube.com/embed/R170ns5l4Uk?autoplay=1&mute=0&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&loop=1&playlist=R170ns5l4Uk&disablekb=1&fs=0&cc_load_policy=0&enablejsapi=1"
                 title="Você + Magra"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -45,6 +61,19 @@ const Hero = () => {
               />
               {/* Overlay para cobrir controles residuais */}
               <div className="absolute bottom-0 left-0 right-0 h-16 bg-transparent pointer-events-auto z-10" />
+              
+              {/* Botão Play/Pause personalizado */}
+              <button
+                onClick={togglePlayPause}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-background/90 hover:bg-background text-foreground rounded-full p-4 md:p-6 shadow-lg transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100"
+                aria-label={isPlaying ? "Pausar vídeo" : "Reproduzir vídeo"}
+              >
+                {isPlaying ? (
+                  <Pause className="w-8 h-8 md:w-12 md:h-12" fill="currentColor" />
+                ) : (
+                  <Play className="w-8 h-8 md:w-12 md:h-12" fill="currentColor" />
+                )}
+              </button>
             </div>
             
             <Button 
