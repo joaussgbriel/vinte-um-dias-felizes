@@ -37,12 +37,14 @@ const Hero = () => {
             <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl mx-auto">
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
-                src="https://www.youtube.com/embed/R170ns5l4Uk?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&loop=1&playlist=R170ns5l4Uk"
+                src="https://www.youtube.com/embed/R170ns5l4Uk?autoplay=1&mute=0&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&loop=1&playlist=R170ns5l4Uk&disablekb=1&fs=0&cc_load_policy=0"
                 title="Você + Magra"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 style={{ border: 'none' }}
               />
+              {/* Overlay para cobrir controles residuais */}
+              <div className="absolute bottom-0 left-0 right-0 h-16 bg-transparent pointer-events-auto z-10" />
             </div>
             
             <Button 
