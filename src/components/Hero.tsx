@@ -52,15 +52,22 @@ const Hero = () => {
             <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl mx-auto group">
               <iframe
                 ref={iframeRef}
-                className="absolute top-0 left-0 w-full h-full"
+                className="absolute top-0 left-0 w-full h-full pointer-events-none"
                 src="https://www.youtube.com/embed/R170ns5l4Uk?autoplay=1&mute=0&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&loop=1&playlist=R170ns5l4Uk&disablekb=1&fs=0&cc_load_policy=0&enablejsapi=1"
                 title="Você + Magra"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 style={{ border: 'none' }}
               />
-              {/* Overlay para cobrir controles residuais */}
-              <div className="absolute bottom-0 left-0 right-0 h-16 bg-transparent pointer-events-auto z-10" />
+              
+              {/* Overlay central - bloqueia cliques no vídeo */}
+              <div className="absolute inset-0 bg-transparent pointer-events-auto z-5" />
+              
+              {/* Overlays das bordas - cobrem controles residuais do YouTube */}
+              <div className="absolute bottom-0 left-0 right-0 h-24 bg-transparent pointer-events-auto z-10" />
+              <div className="absolute top-0 left-0 right-0 h-16 bg-transparent pointer-events-auto z-10" />
+              <div className="absolute top-0 bottom-0 left-0 w-16 bg-transparent pointer-events-auto z-10" />
+              <div className="absolute top-0 bottom-0 right-0 w-16 bg-transparent pointer-events-auto z-10" />
               
               {/* Botão Play/Pause personalizado */}
               <button
