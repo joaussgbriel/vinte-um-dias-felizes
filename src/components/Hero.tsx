@@ -2,6 +2,7 @@ import { ArrowRight, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useRef, useEffect } from "react";
 import logo from "@/assets/logo.png";
+import videoThumbnail from "@/assets/video-thumbnail.jpg";
 
 // Tipos para a API do YouTube
 declare global {
@@ -133,8 +134,8 @@ const Hero = () => {
               {/* Thumbnail - mostrado até o usuário clicar */}
               {showThumbnail && (
                 <img
-                  src={`https://i.ytimg.com/vi/${videoId}/hq720.jpg`}
-                  alt="Thumbnail do vídeo"
+                  src={videoThumbnail}
+                  alt="Thumbnail do vídeo - Aperte o Play"
                   className="absolute inset-0 w-full h-full object-cover z-10 cursor-pointer"
                   onClick={togglePlayPause}
                 />
