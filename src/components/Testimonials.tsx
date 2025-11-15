@@ -15,7 +15,7 @@ const testimonials = [
   },
   {
     text: "Tu fez parte de uma mudança física e mental que eu adiava há anos.",
-    author: "Diogo"
+    author: "Sofia"
   }
 ];
 
