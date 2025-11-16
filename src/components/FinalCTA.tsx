@@ -26,9 +26,12 @@ const FinalCTA = () => {
           <Button 
             size="lg"
             className="bg-primary hover:bg-primary/90 text-primary-foreground text-base md:text-xl px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group w-full sm:w-auto"
+            asChild
           >
-            Quero começar meu processo agora
-            <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+            <a href="https://pag.ae/7-znxYcxM" target="_blank" rel="noopener noreferrer">
+              Quero começar meu processo agora
+              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </a>
           </Button>
           
           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
