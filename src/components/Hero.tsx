@@ -36,12 +36,27 @@ const Hero = () => {
 
   // Cria o player quando o usuário clicar
   const createPlayerAndPlay = () => {
-    if (loaded || !iframeWrapRef.current) return;
+    if (loaded) {
+      console.log('Player já carregado');
+      return;
+    }
+    
+    if (!iframeWrapRef.current) {
+      console.log('Ref do iframe não encontrada');
+      return;
+    }
+    
+    console.log('Iniciando criação do player...');
     
     const initPlayer = () => {
+      console.log('initPlayer chamado, API disponível:', !!window.YT?.Player);
       setLoaded(true);
       
-      playerRef.current = new window.YT.Player(iframeWrapRef.current, {
+      // Cria um ID único para o player
+      const playerId = 'youtube-player-' + Date.now();
+      iframeWrapRef.current!.id = playerId;
+      
+      playerRef.current = new window.YT.Player(playerId, {
         width: '100%',
         height: '100%',
         videoId: videoId,
@@ -58,38 +73,52 @@ const Hero = () => {
         },
         events: {
           onReady: (event: any) => {
+            console.log('Player pronto, iniciando vídeo');
             setShowThumbnail(false);
             event.target.playVideo();
             setIsPlaying(true);
           },
           onStateChange: (event: any) => {
             const state = event.data;
+            console.log('Estado do player mudou:', state);
             if (state === window.YT.PlayerState.PLAYING) {
               setIsPlaying(true);
             } else if (state === window.YT.PlayerState.PAUSED || state === window.YT.PlayerState.ENDED) {
               setIsPlaying(false);
             }
+          },
+          onError: (event: any) => {
+            console.error('Erro no player:', event.data);
           }
         }
       });
     };
 
     if (window.YT && window.YT.Player) {
+      console.log('API já carregada, criando player');
       initPlayer();
     } else {
+      console.log('Aguardando API carregar...');
       window.onYouTubeIframeAPIReady = initPlayer;
     }
   };
 
   const togglePlayPause = () => {
+    console.log('togglePlayPause chamado, loaded:', loaded);
+    
     if (!loaded) {
       createPlayerAndPlay();
       return;
     }
     
-    if (!playerRef.current) return;
+    if (!playerRef.current) {
+      console.log('playerRef.current não existe');
+      return;
+    }
     
     const state = playerRef.current.getPlayerState();
+    console.log('Estado atual:', state);
+    
     if (state === window.YT.PlayerState.PLAYING) {
       playerRef.current.pauseVideo();
       setIsPlaying(false);
