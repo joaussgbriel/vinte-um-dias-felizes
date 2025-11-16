@@ -62,7 +62,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors flex items-center gap-2"
                 >
-                  <span>WhatsApp: (35) 9133-1880</span>
+                  <span>WhatsApp: (35) 99133-1880</span>
                 </a>
               </li>
             </ul>
