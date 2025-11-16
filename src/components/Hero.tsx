@@ -208,7 +208,19 @@ const Hero = () => {
               className="bg-primary hover:bg-primary/90 text-primary-foreground text-base md:text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group w-full sm:w-auto"
               asChild
             >
-              <a href="https://pag.ae/7-znxYcxM" target="_blank" rel="noopener noreferrer">
+              <a 
+                href="https://pag.ae/7-znxYcxM" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && (window as any).fbq) {
+                    (window as any).fbq('track', 'Purchase', {
+                      value: 0.00,
+                      currency: 'BRL'
+                    });
+                  }
+                }}
+              >
                 Quero Começar Agora
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </a>
