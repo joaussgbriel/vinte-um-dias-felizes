@@ -64,7 +64,7 @@ const AboutNutritionist = () => {
             
             <div className="bg-card p-5 md:p-6 rounded-2xl border-l-4 border-accent">
               <p className="text-base md:text-lg text-foreground/80 italic leading-relaxed">
-                "Ao longo da minha trajetória, já ajudei centenas de mulheres a emagrecerem — e agora quero ajudar você."
+                "Ao longo da minha trajetória, já ajudei milhares de mulheres a emagrecerem — e agora quero ajudar você."
               </p>
             </div>
             
